@@ -15,12 +15,12 @@
 // If the string S is an empty value or the integer N is not positive, return the first argument without changes.
 
 const encrypt = (text, n) => {
-    if (text.length === 0 || n <= 0) return text
-
-    let oddStr = "";
-    let evenStr = "";
+    if (text === null || text.length === 0 || n <= 0) return text
 
     for (let i = 0; i < n; i++) {
+        let oddStr = "";
+        let evenStr = "";
+
         for (let j = 0; j < text.length; j++) {
             if (j % 2 === 1) {
                 oddStr += text[j];
@@ -30,29 +30,39 @@ const encrypt = (text, n) => {
         }
         text = oddStr + evenStr
     }
-    return oddStr + evenStr;
+    return text;
 };
 
 const decrypt = (encryptedText, n) => {
-    if (encryptedText.length === 0 || n <= 0) return encryptedText
+    if (encryptedText === null || encryptedText.length === 0 || n <= 0) return encryptedText
 
     const halfLength = Math.floor(encryptedText.length / 2);
-    let decryptedText = "";
-    const oddStr = encryptedText.slice(0, halfLength);
-    const evenStr = encryptedText.slice(halfLength);
 
     for (let i = 0; i < n; i++) {
+        const oddStr = encryptedText.slice(0, halfLength);
+        const evenStr = encryptedText.slice(halfLength);
+        let decryptedText = "";
+
         for (let j = 0; j < encryptedText.length; j++) {
-            if (j < oddStr.length) {
-                decryptedText += oddStr[j];
-            }
             if (j < evenStr.length) {
                 decryptedText += evenStr[j]
             }
+            if (j < oddStr.length) {
+                decryptedText += oddStr[j];
+            } 
         }
+
+        encryptedText = decryptedText
     }
-    return decryptedText
+    return encryptedText
 };
 
 console.log(encrypt("This is a test!", 3));
-console.log(encrypt("012345", 3));
+console.log(encrypt("012345", 2));
+
+console.log(decrypt(" Tah itse sits!", 3));
+console.log(decrypt("hsi  etTi sats!", 1));
+console.log(decrypt("hskt svr neetn!Ti aai eyitrsig", 1));
+
+console.log(encrypt(null, -2));
+
